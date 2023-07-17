@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.Yaml;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -45,11 +45,13 @@ public final class JoinTimes extends JavaPlugin implements Listener {
     }
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        String name = e.getPlayer().getName();
+        Player player = e.getPlayer();
+        String name = player.getName();
         if (!playerData.contains(name)) {
             playerData.set(name, 1);
         } else {
-            playerData.set(name, playerData.getInt(name));
+            int count = playerData.getInt(name);
+            playerData.set(name, count + 1);
         }
         e.getPlayer().sendMessage("你已经进入服务器 " + playerData.getInt(name) + " 次");
     }
